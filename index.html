@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer Checker | Jarrang</title>
+    
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container py-5">
+        <!-- Header -->
+        <header class="text-center mb-5">
+            <div class="brand-mark mb-3">
+                <span class="brand-icon"><i class="bi bi-clock-history"></i></span>
+            </div>
+            <h1 class="display-6 fw-bold text-primary mb-2">Countdown Timer Checker</h1>
+            <p class="text-muted lead-sm">Enter the remaining time on your countdown to verify its end date</p>
+        </header>
+
+        <!-- Main Card -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-7">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4 p-md-5">
+                        
+                        <!-- Time Input Section -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold mb-3">
+                                <i class="bi bi-hourglass-split me-2 text-accent"></i>Time Remaining
+                            </label>
+                            <div class="row g-2 g-md-3">
+                                <div class="col-6 col-md-3">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control text-center" id="inputDays" 
+                                               min="0" max="9999" value="0" inputmode="numeric" aria-label="Days">
+                                        <label for="inputDays">Days</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control text-center" id="inputHours" 
+                                               min="0" max="23" value="0" inputmode="numeric" aria-label="Hours">
+                                        <label for="inputHours">Hours</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control text-center" id="inputMinutes" 
+                                               min="0" max="59" value="0" inputmode="numeric" aria-label="Minutes">
+                                        <label for="inputMinutes">Minutes</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control text-center" id="inputSeconds" 
+                                               min="0" max="59" value="0" inputmode="numeric" aria-label="Seconds">
+                                        <label for="inputSeconds">Seconds</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timezone Selection -->
+                        <div class="mb-4">
+                            <label for="timezoneSelect" class="form-label fw-semibold">
+                                <i class="bi bi-globe me-2 text-accent"></i>Display Timezone
+                            </label>
+                            <select class="form-select" id="timezoneSelect" aria-label="Select timezone">
+                                <!-- Populated by JavaScript -->
+                            </select>
+                            <div class="form-text">
+                                <i class="bi bi-info-circle me-1"></i>
+                                Your local timezone: <span id="localTimezone" class="fw-medium"></span>
+                            </div>
+                        </div>
+
+                        <!-- Calculate Button -->
+                        <div class="d-grid mb-4">
+                            <button type="button" class="btn btn-primary btn-lg" id="calculateBtn">
+                                <i class="bi bi-calculator me-2"></i>Calculate End Time
+                            </button>
+                        </div>
+
+                        <!-- Results Section -->
+                        <div id="resultsSection" class="results-section d-none">
+                            <hr class="my-4">
+                            
+                            <div class="text-center mb-4">
+                                <span class="badge bg-accent text-white mb-2">Timer will end at</span>
+                            </div>
+
+                            <!-- Primary Result -->
+                            <div class="result-card primary-result mb-3">
+                                <div class="result-label">
+                                    <i class="bi bi-calendar-event me-1"></i>Selected Timezone
+                                </div>
+                                <div class="result-value" id="resultSelectedTz"></div>
+                                <div class="result-timezone" id="resultSelectedTzName"></div>
+                            </div>
+
+                            <!-- Local Time Result -->
+                            <div class="result-card secondary-result mb-4" id="localResultCard">
+                                <div class="result-label">
+                                    <i class="bi bi-geo-alt me-1"></i>Your Local Time
+                                </div>
+                                <div class="result-value" id="resultLocalTz"></div>
+                                <div class="result-timezone" id="resultLocalTzName"></div>
+                            </div>
+
+                            <!-- Copy Button -->
+                            <div class="d-flex gap-2 justify-content-center">
+                                <button type="button" class="btn btn-outline-primary btn-sm" id="copyBtn">
+                                    <i class="bi bi-clipboard me-1"></i>Copy Result
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" id="resetBtn">
+                                    <i class="bi bi-arrow-counterclockwise me-1"></i>Reset
+                                </button>
+                            </div>
+
+                            <!-- Copy Toast -->
+                            <div id="copyToast" class="copy-toast">
+                                <i class="bi bi-check-circle me-1"></i>Copied to clipboard!
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <footer class="text-center mt-4">
+                    <p class="text-muted small mb-0">
+                        An internal tool by <a href="https://www.jarrang.com" target="_blank" rel="noopener" class="text-accent fw-medium">Jarrang</a>
+                    </p>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- App JS -->
+    <script src="js/app.js"></script>
+</body>
+</html>
