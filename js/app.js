@@ -141,14 +141,12 @@
     // ----- Validation -----
     function validateInput(e) {
         const input = e.target;
-        let value = parseInt(input.value) || 0;
-        const min = parseInt(input.min) || 0;
-        const max = parseInt(input.max) || 9999;
-
-        if (value < min) value = min;
-        if (value > max) value = max;
-
-        input.value = value;
+        let value = parseInt(input.value);
+        
+        // Allow empty or valid positive numbers
+        if (isNaN(value) || value < 0) {
+            input.value = '';
+        }
     }
 
     // ----- Calculation -----
@@ -264,10 +262,10 @@
     }
 
     function resetForm() {
-        elements.inputDays.value = 0;
-        elements.inputHours.value = 0;
-        elements.inputMinutes.value = 0;
-        elements.inputSeconds.value = 0;
+        elements.inputDays.value = '';
+        elements.inputHours.value = '';
+        elements.inputMinutes.value = '';
+        elements.inputSeconds.value = '';
         calculatedEndTime = null;
         hideResults();
         elements.inputDays.focus();
