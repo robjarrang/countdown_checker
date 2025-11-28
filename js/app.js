@@ -51,6 +51,7 @@
         inputMinutes: document.getElementById('inputMinutes'),
         inputSeconds: document.getElementById('inputSeconds'),
         timezoneSelect: document.getElementById('timezoneSelect'),
+        timezonePreviewClock: document.getElementById('timezonePreviewClock'),
         localTimezone: document.getElementById('localTimezone'),
         calculateBtn: document.getElementById('calculateBtn'),
         resultsSection: document.getElementById('resultsSection'),
@@ -67,12 +68,14 @@
     // ----- State -----
     let calculatedEndTime = null;
     let selectedTimezone = null;
+    let clockInterval = null;
 
     // ----- Initialization -----
     function init() {
         populateTimezones();
         displayLocalTimezone();
         attachEventListeners();
+        startTimezoneClock();
     }
 
     function populateTimezones() {
@@ -125,6 +128,7 @@
         // Timezone change
         elements.timezoneSelect.addEventListener('change', (e) => {
             selectedTimezone = e.target.value;
+            updateTimezoneClock(); // Update clock immediately
             // Recalculate if we already have results
             if (calculatedEndTime) {
                 updateResults();
@@ -198,6 +202,29 @@
         } else {
             elements.localResultCard.classList.add('d-none');
         }
+    }
+
+    // ----- Timezone Clock -----
+    function startTimezoneClock() {
+        updateTimezoneClock(); // Initial update
+        clockInterval = setInterval(updateTimezoneClock, 1000); // Update every second
+    }
+
+    function updateTimezoneClock() {
+        const now = new Date();
+        const timezone = elements.timezoneSelect.value || selectedTimezone;
+        
+        const options = {
+            weekday: 'short',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false,
+            timeZone: timezone
+        };
+        
+        const timeString = new Intl.DateTimeFormat('en-GB', options).format(now);
+        elements.timezonePreviewClock.textContent = timeString;
     }
 
     // ----- Formatting -----
