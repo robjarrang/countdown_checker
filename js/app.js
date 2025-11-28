@@ -51,7 +51,7 @@
         inputMinutes: document.getElementById('inputMinutes'),
         inputSeconds: document.getElementById('inputSeconds'),
         timezoneSelect: document.getElementById('timezoneSelect'),
-        timezonePreviewClock: document.getElementById('timezonePreviewClock'),
+        timezonePreview: document.getElementById('timezonePreview'),
         localTimezone: document.getElementById('localTimezone'),
         calculateBtn: document.getElementById('calculateBtn'),
         resultsSection: document.getElementById('resultsSection'),
@@ -142,6 +142,29 @@
         elements.resetBtn.addEventListener('click', resetForm);
     }
 
+    // ----- Timezone Clock -----
+    function startTimezoneClock() {
+        updateTimezoneClock(); // Initial update
+        clockInterval = setInterval(updateTimezoneClock, 1000); // Update every second
+    }
+
+    function updateTimezoneClock() {
+        const timezone = elements.timezoneSelect.value;
+        const now = new Date();
+        
+        const options = {
+            weekday: 'short',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false,
+            timeZone: timezone
+        };
+        
+        const timeString = new Intl.DateTimeFormat('en-GB', options).format(now);
+        elements.timezonePreview.textContent = timeString;
+    }
+
     // ----- Validation -----
     function validateInput(e) {
         const input = e.target;
@@ -202,29 +225,6 @@
         } else {
             elements.localResultCard.classList.add('d-none');
         }
-    }
-
-    // ----- Timezone Clock -----
-    function startTimezoneClock() {
-        updateTimezoneClock(); // Initial update
-        clockInterval = setInterval(updateTimezoneClock, 1000); // Update every second
-    }
-
-    function updateTimezoneClock() {
-        const now = new Date();
-        const timezone = elements.timezoneSelect.value || selectedTimezone;
-        
-        const options = {
-            weekday: 'short',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false,
-            timeZone: timezone
-        };
-        
-        const timeString = new Intl.DateTimeFormat('en-GB', options).format(now);
-        elements.timezonePreviewClock.textContent = timeString;
     }
 
     // ----- Formatting -----

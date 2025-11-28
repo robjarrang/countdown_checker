@@ -131,7 +131,7 @@ header h1 {
     margin-top: 0.5rem;
 }
 
-/* ----- Timezone Preview Clock ----- */
+/* ----- Timezone Preview ----- */
 .timezone-preview {
     font-size: 0.85rem;
     color: var(--jarrang-primary);
@@ -142,8 +142,8 @@ header h1 {
 }
 
 .timezone-preview .fw-semibold {
+    color: var(--jarrang-accent);
     font-variant-numeric: tabular-nums;
-    letter-spacing: 0.02em;
 }
 
 /* Remove number input spinners on Chrome/Safari */
